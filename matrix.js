@@ -51,8 +51,25 @@ const showResult = (title, containerId, rows, cols, dataArray) => {
 };
 
 const showResult2D = (title, containerId, dataArray) => {
-	// dataArray is a 2D array
-	// complete this function based on the showResult function
+	let container = document.getElementById(containerId);
+    container.innerHTML = ''; // Clear previous content
+    let table = document.createElement('table');
+
+    for (let i = 0; i < dataArray.length; i++) {
+        let tr = document.createElement('tr');
+        for (let j = 0; j < dataArray[i].length; j++) {
+            let td = document.createElement('td');
+            let span = document.createElement('span');
+            span.innerHTML = dataArray[i][j];
+            td.appendChild(span);
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+    }
+
+    let caption = table.createCaption();
+    caption.textContent = title;
+    container.appendChild(table);
 }
 
 function performOperation(operation) {
@@ -62,11 +79,19 @@ function performOperation(operation) {
     console.log("2nd Matrix", matrix2);
     console.log("Operation", operation);
     // Just a test result
-    let result = [1, 2, 3, 4, 5, 6, 7, 8];
-    // Call your matrix calculation functions here
-    // For example: if (operation === 'add') { addMatrices(matrix1, matrix2); }
-	// prints suitable messages for impossible situation
-    showResult('The Result', 'matrix3', 2, 4, result); // use suitable function for printing results
+    //let result = [1, 2, 3, 4, 5, 6, 7, 8];
+
+    if(operation === 'add'){
+        result = addMatrices(matrix1, matrix2);
+    }
+    else if(operation === 'subtract'){
+        result = subtractMatrices(matrix1, matrix2);
+    }
+    else if(operation === 'multiply'){
+        result = multiplyMatrices(matrix1, matrix2);
+    }
+    //showResult('The Result', 'matrix3', 2, 4, result); // use suitable function for printing results
+    showResult2D('The Result', 'matrix3', result)
 }
 
 const getMatrixData1D = function (matrixId) {
@@ -101,14 +126,68 @@ const getMatrixData2D = function (matrixId) {
 };
 
 
-// Add your matrix calculation functions here
-// The functions must check the posibility of calculation too.
 function addMatrices(matrix1, matrix2){ 
-	// provide the code
+	m1cols = matrix1[0].length;
+    m1rows = matrix1.length;
+    m2cols = matrix2[0].length;
+    m2rows = matrix2.length;
+    if(m1cols != m2cols || m1rows != m2rows){
+        console.log("Matrices must be of the same size! ");
+        return "Matrices must be of the same size! ";
+    }
+    let result = [];
+    for (let i=0; i< m1rows; i++){
+        let row = [];
+        for (let j=0; j<m1cols; j++){
+            row.push(matrix1[i][j] + matrix2[i][j]);
+        }
+        result.push(row);
+    }
+    console.log(result);
+    return result;
+
 }
 const subtractMatrices = function (matrix1, matrix2) { 
-	// provide the code
+	m1cols = matrix1[0].length;
+    m1rows = matrix1.length;
+    m2cols = matrix2[0].length;
+    m2rows = matrix2.length;
+    if(m1cols != m2cols || m1rows != m2rows){
+        console.log("Matrices must be of the same size! ");
+        return "Matrices must be of the same size! ";
+    }
+    let result = [];
+    for (let i=0; i< m1rows; i++){
+        let row = [];
+        for (let j=0; j<m1cols; j++){
+            row.push(matrix1[i][j] - matrix2[i][j]);
+        }
+        result.push(row);
+    }
+    console.log(result);
+    return result;
 };
 const multiplyMatrices = (matrix1, matrix2) => { 
-	// provide the code
+	m1cols = matrix1[0].length;
+    m1rows = matrix1.length;
+    m2cols = matrix2[0].length;
+    m2rows = matrix2.length;
+    if(m1cols != m2rows){
+        console.log("Number of columns of the first matrix must be the same as rows of the second! ");
+        return "Number of columns of the first matrix must be the same as rows of the second! ";
+    }
+    let result = [];
+    for (let i = 0; i < m1rows; i++) {
+        let row = [];
+        for (let j = 0; j < m2cols; j++) {
+            let sum = 0;
+            for (let k = 0; k < m1cols; k++) {
+                sum += matrix1[i][k] * matrix2[k][j];
+      }
+      row.push(sum);
+    }
+    result.push(row);
+  }
+    console.log(result)
+    return result;
 };
