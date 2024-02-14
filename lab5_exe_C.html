@@ -228,14 +228,13 @@ Description : DOM Elements.
         aboutUs.appendChild(paragraph);
 
         // Task 5: Add placeholders to input elements based on their corresponding label IDs
-        var inputs = document.querySelectorAll('input');
-        inputs.forEach(function(input){
-          var inputId = input.getAttribute('id');
-          input.placeholder = inputId;
+        var label = document.querySelectorAll('label');
+        label.forEach(function(labels){
+          var id = labels.getAttribute('for');
+          var inputElement = document.getElementById(id)
+          inputElement.setAttribute('placeholder', id)
         });
-        var text = document.querySelector('textarea');
-        var inputId = text.getAttribute('id');
-        text.placeholder = inputId
+ 
 
         // Task 6: Set the src attribute of the image
         img = document.querySelector('img');
